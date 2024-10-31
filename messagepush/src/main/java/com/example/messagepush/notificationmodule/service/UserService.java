@@ -1,33 +1,47 @@
-// UserService.java
 package com.example.messagepush.notificationmodule.service;
 
 import com.example.messagepush.notificationmodule.mapper.UserMapper;
-import com.example.messagepush.notificationmodule.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
+import org.w3c.dom.Text;
 
 @Service
 public class UserService {
 
     @Autowired
-    private UserMapper userMapper;
+    UserMapper userMapper;
+    
 
-    public List<User> getAllUsers() {
-        return userMapper.findAllUsers();
+    //查询用户信息
+    public String getUserInfo(String userId){
+        return userMapper.getUserInfo(userId);
     }
 
-    public User findUserByUsername(String username) {
-        return userMapper.findByUsername(username);
+    public String getFollowingList(String userid) {
+        return userMapper.getFollowingList(userid);
     }
 
-    public void insertUser(User user){
-        userMapper.insertUser(user);
+    public String getFollowersList(String userid) {
+        return userMapper.getFollowersList(userid);
     }
 
-    public User findUserFollowByUsername(String username) {
-        return userMapper.findUserFollowByUsername(username);
+    public Boolean followUser(String userid,String followingid) {
+        return userMapper.followUser(userid,followingid);
+    }
+
+    public Boolean unfollowUser(String userid, String followingid) {
+        return userMapper.unfollowUser(userid, followingid);
+    }
+
+    public String getTexts(String userid) {
+        return userMapper.getTexts(userid);
+    }
+
+    public void writeNewText(String userid,String text) {
+        userMapper.writeNewText(userid,text);
+    }
+
+    public String getFollowingTexts(String userid) {
+        return userMapper.getFollowingTexts(userid);
     }
 }

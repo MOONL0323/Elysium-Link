@@ -1,23 +1,60 @@
-// UserMapper.java
 package com.example.messagepush.notificationmodule.mapper;
 
-import com.example.messagepush.notificationmodule.model.User;
-import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Text;
 
-import java.util.List;
+@Component
+public class UserMapper {
 
-@Mapper
-public interface UserMapper {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
-    @Select("SELECT * FROM users")
-    List<User> findAllUsers();
+    //根据id从redis中查询用户信息
+    public String getUserInfo(String userId){
+        return redisTemplate.opsForValue().get(userId);
+    }
 
-    @Insert("INSERT INTO users(username, password) VALUES(#{username}, #{password})")
-    void insertUser(User user);
+    public String getFollowingList(String userid) {
+        return redisTemplate.opsForList().range(userid+"following", 0, -1).toString();
+    }
 
-    @Select("SELECT * FROM users WHERE username = #{username}")
-    User findByUsername(String username);
+    public String getFollowersList(String userid) {
+        return redisTemplate.opsForList().range(userid+"followers", 0, -1).toString();
+    }
 
-    @Select("SELECT * FROM follow_list WHERE user_id = (SELECT id FROM users WHERE username = #{username})")
-    User findUserFollowByUsername(String username);
+    public Boolean followUser(String userid,String followingid) {
+        return redisTemplate.opsForList().rightPush(userid+"following", followingid) > 0 &&
+                redisTemplate.opsForList().rightPush(followingid+"followers", userid) > 0;
+    }
+
+    public Boolean unfollowUser(String userid, String followingid) {
+        return redisTemplate.opsForList().remove(userid+"following", 0, followingid) > 0 &&
+                redisTemplate.opsForList().remove(followingid+"followers", 0, userid) > 0;
+    }
+
+    public String getTexts(String userid) {
+        StringBuilder str = new StringBuilder();
+        for (String text : redisTemplate.opsForList().range(userid+"texts", 0, -1)) {
+            str.append(text).append("/n").append("************");
+        }
+        return str.toString();
+    }
+
+    public void writeNewText(String userid,String text) {
+        redisTemplate.opsForList().rightPush(userid+"texts", text);
+        //消息推送（写扩散）
+        for (String followerid : redisTemplate.opsForList().range(userid+"followers", 0, -1)) {
+            redisTemplate.opsForList().rightPush(followerid+"followeringtexts", text);
+        }
+    }
+
+    public String getFollowingTexts(String userid) {
+        StringBuilder str = new StringBuilder();
+        for (String followingid : redisTemplate.opsForList().range(userid+"followingtexts", 0, -1)) {
+            str.append(getTexts(followingid)).append("/n").append("************");
+        }
+        return str.toString();
+    }
 }
