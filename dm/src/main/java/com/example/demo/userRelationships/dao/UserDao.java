@@ -1,13 +1,20 @@
 package com.example.demo.userRelationships.dao;
 
 import com.example.demo.userRelationships.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author 86188
  */
 @Repository
-public interface UserDao extends JpaRepository<User, Long> {
-    User findByUserId(Long userId);
+@Mapper
+public interface UserDao{
+    @Select("select * from user where user_id = #{userId}")
+    User findByUserId(@Param("userId") Long userId);
+
+    @Select("select * from user where username = #{username}")
+    User findByUsername(@Param("username") String username);
 }
