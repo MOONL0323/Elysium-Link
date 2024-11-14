@@ -3,20 +3,18 @@ package com.example.demo.userRelationships.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * @author 86188
  */
-@Entity
-@Table(name = "user") // 假设表名为 users
 @Data
+@Table(name = "user")
 public class User {
-    @jakarta.persistence.Id// 假设主键为 userId
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// 假设主键为 userId
+    private Long id;
+
     private Long userId;
 
     private String username;

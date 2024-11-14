@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Component
+
 @Service
 public class FollowingServiceImpl implements FollowingSerice {
     @Autowired

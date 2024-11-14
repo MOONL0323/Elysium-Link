@@ -10,7 +10,7 @@ import java.util.List;
  * @author 86188
  */
 @RestController
-@RequestMapping("/api/follower")
+@RequestMapping("/followers")
 public class FollowerController {
 
     @Autowired
