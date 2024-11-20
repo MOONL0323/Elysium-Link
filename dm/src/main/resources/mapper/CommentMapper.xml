@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.comments.dao.CommentMapper">
+    <resultMap id="CommentResultMap" type="com.example.demo.comments.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="commentId" property="commentId"/>
+        <result column="parentId" property="parentId"/>
+        <result column="rootId" property="rootId"/>
+        <result column="manuscriptId" property="manuscriptId"/>
+        <result column="creatorAt" property="creatorAt"/>
+        <result column="content" property="content"/>
+        <result column="creatorId" property="creatorId"/>
+        <result column="likeCount" property="likeCount"/>
+    </resultMap>
+
+    <select id="findById" resultMap="CommentResultMap">
+        SELECT * FROM comment WHERE id = #{id}
+    </select>
+
+    <select id="findByManuscriptId" resultMap="CommentResultMap">
+        SELECT * FROM comment WHERE manuscriptId = #{manuscriptId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment (commentId, parentId, rootId, manuscriptId, creatorAt, content, creatorId, likeCount)
+        VALUES (#{comment.commentId}, #{comment.parentId}, #{comment.rootId}, #{comment.manuscriptId},
+                #{comment.creatorAt}, #{comment.content}, #{comment.creatorId}, #{comment.likeCount})
+    </insert>
+
+    <update id="update">
+        UPDATE comment SET content = #{comment.content}, likeCount = #{comment.likeCount}, creatorAt = #{comment.creatorAt} WHERE id = #{comment.id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM comment WHERE id = #{id} AND creatorId = #{creatorId}
+    </delete>
+    <update id="incrementLikeCount">
+        UPDATE comment SET likeCount = likeCount + 1 WHERE id = #{id}
+    </update>
+</mapper>
