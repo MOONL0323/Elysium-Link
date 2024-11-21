@@ -5,11 +5,26 @@ import com.example.demo.userRelationships.dao.UserMapper;
 import com.example.demo.userRelationships.entity.User;
 import com.example.demo.userRelationships.service.FollowerService;
 import com.example.demo.userRelationships.service.FollowingSerice;
+import com.example.demo.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/**
+ * Original by
+ * @Author 86188
+ *
+ * Changed by
+ * @Author MOONL
+ * @version 2024/11/21
+ * - 更改url路径，并且userId从request中获取
+ * - 更改返回值类型为统一的ApiResponse格式
+ * - 增加了getFollowingInfo方法，用来获取关注列表的用户具体信息
+ *
+ *  关注的service
+ */
 @Service
 public class FollowingServiceImpl implements FollowingSerice {
     @Autowired
@@ -47,5 +62,26 @@ public class FollowingServiceImpl implements FollowingSerice {
         }else{
             System.out.println("未关注该用户");
         }
+    }
+
+    /**
+     * 获取关注列表
+     * @param userId
+     * @return ApiResponse<List<User>>
+     */
+    @Override
+    public ApiResponse<List<User>> getFollowingInfo(Long userId) {
+        List<Long> followingIds = getFollowing(userId);
+        List<User> followings = followingIds.stream().map(followingId -> {
+            //去mapper中查找
+            User following = userDao.findByUserId(followingId);
+            return following;
+        }).toList();
+
+        ApiResponse<List<User>> response = new ApiResponse<>();
+        response.setData(followings);
+        response.setMessage("获取关注列表成功");
+        response.setCode(200);
+        return response;
     }
 }

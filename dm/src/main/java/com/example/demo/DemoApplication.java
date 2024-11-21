@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author 86188
  */
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@MapperScan("com.example.demo.userRelationships")
+@MapperScan("com.example.demo.*.dao")
 
 @SpringBootApplication()
 

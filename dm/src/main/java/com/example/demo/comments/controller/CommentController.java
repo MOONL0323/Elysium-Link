@@ -8,7 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * Original author
  * @author 86188
+ *
+ * Upadted by
+ * @author MOONL
+ * @version 2024-11-21 01:28
+ *
+ * Changes:
+ * -
  */
 @RestController
 @RequestMapping("/comments")
