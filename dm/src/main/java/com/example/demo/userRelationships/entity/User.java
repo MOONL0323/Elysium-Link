@@ -9,13 +9,8 @@ import java.time.LocalDateTime;
  * @author 86188
  */
 @Data
-@Entity
-@Table(name = "user")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long userId;

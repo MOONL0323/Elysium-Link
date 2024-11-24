@@ -3,7 +3,6 @@ package com.example.demo.userRelationships.controller;
 import com.example.demo.userRelationships.entity.User;
 import com.example.demo.userRelationships.service.FollowerService;
 import com.example.demo.util.ApiResponse;
-import com.example.demo.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
