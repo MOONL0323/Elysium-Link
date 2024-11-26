@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * @Author MOONL
  * @version 2024/11/21
@@ -25,9 +27,15 @@ public interface RelationBaseMapper {
     @Select("select count(*) from following where user_id = #{userId}")
     Integer getFollowingCount(Long userId);
 
-    //更新用户信息
-    @Update("UPDATE user SET username = #{username}," +
-            "password = #{password}, email = #{email}," +
-            "phone = #{phone}, avatar = #{avatar} WHERE id = #{id}")
-    void updateUser(User user);
+    /*
+    获取用户信息
+     */
+
+    @Select("<script>" +
+        "SELECT * FROM user WHERE id IN " +
+        "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>" +
+        "#{item}" +
+        "</foreach>" +
+        "</script>")
+    List<User> getUserInfo(List<Long> list);
 }

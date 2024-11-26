@@ -1,11 +1,12 @@
 package com.example.demo.articles.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.articles.entity.Article;
 
 import java.util.List;
 
 
-public interface ArticleService {
+public interface ArticleService extends IService<Article> {
     /**
      * 获取文章列表
      * @param pageNum 页码

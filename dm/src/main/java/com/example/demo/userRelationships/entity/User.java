@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
  * @author 86188
  */
 @Data
+@Table(name = "user")
+
 public class User {
     private Long id;
     private LocalDateTime createdAt;

@@ -1,10 +1,13 @@
 package com.example.demo.userRelationships.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.userRelationships.entity.User;
 import com.example.demo.userRelationships.entity.UserRecordVo;
 import com.example.demo.util.ApiResponse;
+import org.springframework.stereotype.Service;
 
-public interface RelationBaseService {
+
+public interface RelationBaseService extends IService<User> {
     ApiResponse<String> getRelationCount(Long userId);
 
     /**

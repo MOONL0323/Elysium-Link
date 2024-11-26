@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 /**
  * Redis工具类
  */
@@ -39,5 +41,31 @@ public class RedisUtils {
      */
     public void set(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
+    }
+    /**
+     * 判断集合是否包含value
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public Boolean sIsMember(String key, Object value) {
+        return redisTemplate.opsForSet().isMember(key, value);
+    }
+    /**
+     * 删除key
+     *
+     * @param key
+     */
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
+    /**
+     * 批量删除key
+     *
+     * @param keys
+     */
+    public void delete(Collection<String> keys) {
+        redisTemplate.delete(keys);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Mapper
-public interface UserMapper {
+public interface UserMapper{
     @Select("select * from user where user_id = #{userId}")
     User findByUserId(@Param("userId") Long userId);
 
