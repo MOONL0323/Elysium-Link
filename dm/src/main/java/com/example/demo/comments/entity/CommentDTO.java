@@ -43,7 +43,7 @@ public class CommentDTO implements Serializable {
     private Long replyUid;
 
     /**
-     *
+     * 评论内容
      */
     @ApiModelProperty(value = "评论内容")
     @NotBlank(message = "内容不能为空", groups = DefaultGroup.class)

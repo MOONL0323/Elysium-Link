@@ -16,12 +16,12 @@ public interface CommentService extends IService<Comment> {
      * 得到所有的一级评论并携带一个二级评论
      *
      * @param page
-     * @param limit
+     * @param limit 一页显示多少条
      * @param mid
      * @param uid
      * @return
      */
-    IPage<CommentVo> getAllComment(Long page, Long limit, Long mid, Long uid);
+    IPage<CommentVo> getAllComment(int page, int limit, Long mid, Long uid);
 
     /**
      * 增加一条评论
@@ -39,7 +39,7 @@ public interface CommentService extends IService<Comment> {
      * @param uid
      * @return
      */
-    IPage<Comment> getAllTwoCommentByOneId(Long page, Long limit, Long id, Long uid);
+    IPage<CommentVo> getAllTwoCommentByOneId(int page, int limit, Long id, Long uid);
 
     /**
      * 查看所有回复的评论
@@ -49,7 +49,7 @@ public interface CommentService extends IService<Comment> {
      * @param uid
      * @return
      */
-    List<Comment> getAllReplyComment(Long page, Long limit, Long uid);
+    List<CommentVo> getAllReplyComment(int page, int limit, Long uid);
 
     /**
      * 删除一条评论

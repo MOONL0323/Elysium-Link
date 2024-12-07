@@ -25,4 +25,5 @@ public interface RelationBaseService extends IService<User> {
      * @return
      */
     UserRecordVo getUserRecord(String uid);
+
 }

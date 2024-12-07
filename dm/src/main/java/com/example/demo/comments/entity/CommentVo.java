@@ -12,7 +12,7 @@ public class CommentVo {
     /**
      * id
      */
-    private Long cid;
+    private Long id;
     /**
      * 评论的文章信息id
      */

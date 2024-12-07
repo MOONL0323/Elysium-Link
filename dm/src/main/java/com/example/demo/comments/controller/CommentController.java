@@ -1,7 +1,9 @@
 package com.example.demo.comments.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.demo.comments.entity.Comment;
 import com.example.demo.comments.entity.CommentDTO;
+import com.example.demo.comments.entity.CommentVo;
 import com.example.demo.comments.service.CommentService;
 import com.example.demo.group.DefaultGroup;
 import com.example.demo.util.ApiResponse;
@@ -32,13 +34,16 @@ public class CommentController {
     }
 
     /**
-     * 根据评论id获取评论
-     * @param id
+     * 得到所有的一级评论并携带一个二级评论
+     * @param page
+     * @param limit
+     * @param mid
+     * @param uid
      * @return ApiResponse<?>
      */
     @RequestMapping("/getComment/{id}")
-    public ApiResponse<?> getComment(@PathVariable Long id) {
-        Comment comment = commentService.getCommentById(id);
+    public ApiResponse<?> getComment(@PathVariable int page, @PathVariable int limit, @PathVariable Long mid, @PathVariable Long uid) {
+        IPage<CommentVo> comment = commentService.getAllComment(page, limit, mid, uid);
         return ApiResponse.ok(comment);
     }
 
@@ -51,7 +56,7 @@ public class CommentController {
      */
     @RequestMapping("/deleteComment/{id}")
     public ApiResponse<?> deleteComment(@PathVariable Long id, Long creatorId, Long authorId) {
-        commentService.deleteComment(id, creatorId, authorId);
+        commentService.deleteComment(id);
         return ApiResponse.ok(null);
     }
 

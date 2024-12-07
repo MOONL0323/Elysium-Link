@@ -41,4 +41,5 @@ public interface ArticleService extends IService<Article> {
      * @param id 文章id
      */
     void deleteArticle(Long id);
+
 }
