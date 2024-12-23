@@ -41,6 +41,7 @@ mvn spring-boot:run
 
 #### directory tree:
 
+```
 dm-project/
 ├── src/
 │   ├── main/
@@ -70,6 +71,7 @@ dm-project/
 │   │       └── mysql.sql
 ├── pom.xml
 └── README.md
+```
 
 ---
 
