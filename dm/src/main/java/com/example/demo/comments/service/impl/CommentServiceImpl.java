@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     private RedisUtils redisUtils;
 
     @Override
-    public void createComment(long userId, CommentVo commentVo) {
+    public void createComment(long userId, CommentVo commentVo, String content) {
         //看是哪一级的评论，是一级评论还是二级评论
         int level = commentVo.getLevel();
         if(level == 1){
@@ -43,6 +43,8 @@ public class CommentServiceImpl implements CommentService {
             long commentTime = System.currentTimeMillis();
             //生成唯一的评论id
             long commentId = snowflakeService.getId("comment").getId();
+            //将评论存入redis
+            redisUtils.set("comment:" + commentId, content);
             commentMapper.insertComment(commentVo.getContentId(), commentId, userId, rootId, level,
                     0, 0, replyUserId, replyCommentId, commentTime);
         }else{
@@ -53,6 +55,8 @@ public class CommentServiceImpl implements CommentService {
             long commentTime = System.currentTimeMillis();
             //生成唯一的评论id
             long commentId = snowflakeService.getId("comment").getId();
+            //将评论存入redis
+            redisUtils.set("comment:" + commentId, content);
             commentMapper.insertComment(commentVo.getContentId(), commentId, userId, rootId, level,
                     0, 0, replyUserId, replyCommentId, commentTime);
         }
@@ -60,6 +64,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(long commentId) {
+        //删除redis中的评论
+        redisUtils.delete("comment:" + commentId);
         //删除评论
         commentMapper.deleteComment(commentId);
     }
