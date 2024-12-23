@@ -41,6 +41,7 @@ mvn spring-boot:run
 
 #### 目录树：
 
+```
 dm-project/
 ├── src/
 │   ├── main/
@@ -70,6 +71,7 @@ dm-project/
 │   │       └── mysql.sql
 ├── pom.xml
 └── README.md
+```
 
 #### 模块解释：
 DemoApplication.java: Spring Boot 应用的入口类，包含主方法来启动应用。
