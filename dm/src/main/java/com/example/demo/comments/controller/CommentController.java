@@ -23,9 +23,9 @@ public class CommentController {
      * @return
      */
     @PostMapping("/create")
-    public void createComment(HttpServletRequest httpServletRequest,@RequestBody CommentVo commentVo) {
+    public void createComment(HttpServletRequest httpServletRequest,@RequestBody CommentVo commentVo,@RequestBody String content) {
         long userId = (long) httpServletRequest.getAttribute("userId");
-        commentService.createComment(userId,commentVo);
+        commentService.createComment(userId,commentVo,content);
         return;
     }
 

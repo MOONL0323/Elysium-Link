@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public interface CommentService {
-    void createComment(long userId, CommentVo commentVo);
+    void createComment(long userId, CommentVo commentVo, String content);
 
     void deleteComment(long commentId);
 
