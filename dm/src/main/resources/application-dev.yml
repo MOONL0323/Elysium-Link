@@ -2,6 +2,8 @@ server:
   port: 8091
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: demo
   datasource:
@@ -14,6 +16,7 @@ spring:
       host: localhost
       port: 6379
       database: 0
+
 
 
 mybatis:

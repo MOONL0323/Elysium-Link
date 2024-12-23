@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Upload</title>
+  <style>
+    textarea {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<h1>Content Upload</h1>
+<form id="uploadForm">
+  <label for="content">Content:</label>
+  <textarea id="content" name="content" rows="10" required></textarea><br><br>
+
+  <label for="files">Files (Images, Long Text, Video):</label>
+  <input type="file" id="files" name="files" multiple><br><br>
+
+  <button type="submit">Upload</button>
+</form>
+
+<h2>Upload Results</h2>
+<div id="results"></div>
+
+<script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('content', document.getElementById('content').value);
+
+            const files = document.getElementById('files').files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+
+            try {
+                const response = await fetch('/api/uploadContent', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+            } catch (error) {
+                console.error('Error uploading content:', error);
+            }
+        });
+    </script>
+</body>
+</html>

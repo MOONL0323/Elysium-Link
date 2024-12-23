@@ -1,68 +1,27 @@
 package com.example.demo.comments.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.comments.entity.*;
+import com.example.demo.util.ApiResponse;
 
 import java.util.List;
-import java.util.Map;
 
 /**
+ * Original: 评论服务接口
  * @author 86188
+ *
+ * Change: Comment service interface
+ * @auther MOONL
  */
 
-public interface CommentService extends IService<Comment> {
-    /**
-     * 得到所有的一级评论并携带一个二级评论
-     *
-     * @param page
-     * @param limit 一页显示多少条
-     * @param mid
-     * @param uid
-     * @return
-     */
-    IPage<CommentVo> getAllComment(int page, int limit, Long mid, Long uid);
 
-    /**
-     * 增加一条评论
-     * @param commentDTO
-     * @return
-     */
-    Comment addComment(CommentDTO commentDTO);
+public interface CommentService {
+    void createComment(long userId, CommentVo commentVo);
 
-    /**
-     * 得到所有的二级评论根据一级评论id
-     *
-     * @param page
-     * @param limit
-     * @param id
-     * @param uid
-     * @return
-     */
-    IPage<CommentVo> getAllTwoCommentByOneId(int page, int limit, Long id, Long uid);
+    void deleteComment(long commentId);
 
-    /**
-     * 查看所有回复的评论
-     *
-     * @param page
-     * @param limit
-     * @param uid
-     * @return
-     */
-    List<CommentVo> getAllReplyComment(int page, int limit, Long uid);
+    ApiResponse<List<CommentResponse>> getLevelOneComment(long contentId, int page, int size);
 
-    /**
-     * 删除一条评论
-     * @param id
-     */
-    void deleteComment(Long id);
+    ApiResponse<List<CommentResponse>> getLevelTwoComment(long rootId, int page, int size);
 
-    /**
-     * 跳转到评论详情
-     * @param id
-     * @param mid
-     * @param uid
-     * @return
-     */
-    Map<String, Object> scrollComment(Long id, Long mid, Long uid);
+    ApiResponse<List<CommentResponse>> getHistoryComment(long userId, int page, int size);
 }

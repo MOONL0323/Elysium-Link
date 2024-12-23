@@ -1,63 +1,79 @@
 package com.example.demo.comments.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.comments.entity.Comment;
-import com.example.demo.comments.entity.CommentDTO;
+import com.example.demo.comments.entity.CommentResponse;
 import com.example.demo.comments.entity.CommentVo;
 import com.example.demo.comments.service.CommentService;
-import com.example.demo.group.DefaultGroup;
 import com.example.demo.util.ApiResponse;
-import com.example.demo.util.ValidatorUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/comment")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
     /**
-     * 新增一条评论
-     * @param commentDTO
-     * @return ApiResponse<?>
+     * 新建评论
+     * @parm commentVo
+     * @return
      */
-
-    @RequestMapping("/addComment")
-    public ApiResponse<?> addComment(@RequestBody CommentDTO commentDTO) {
-        ValidatorUtils.validateEntity(commentDTO, DefaultGroup.class);
-        Comment comment = commentService.addComment(commentDTO);
-        return ApiResponse.ok(comment);
-    }
-
-    /**
-     * 得到所有的一级评论并携带一个二级评论
-     * @param page
-     * @param limit
-     * @param mid
-     * @param uid
-     * @return ApiResponse<?>
-     */
-    @RequestMapping("/getComment/{id}")
-    public ApiResponse<?> getComment(@PathVariable int page, @PathVariable int limit, @PathVariable Long mid, @PathVariable Long uid) {
-        IPage<CommentVo> comment = commentService.getAllComment(page, limit, mid, uid);
-        return ApiResponse.ok(comment);
+    @PostMapping("/create")
+    public void createComment(HttpServletRequest httpServletRequest,@RequestBody CommentVo commentVo) {
+        long userId = (long) httpServletRequest.getAttribute("userId");
+        commentService.createComment(userId,commentVo);
+        return;
     }
 
     /**
      * 删除评论
-     * @param id
-     * @param creatorId
-     * @param authorId
-     * @return ApiResponse<?>
+     * @parm commentId
+     * @return
      */
-    @RequestMapping("/deleteComment/{id}")
-    public ApiResponse<?> deleteComment(@PathVariable Long id, Long creatorId, Long authorId) {
-        commentService.deleteComment(id);
-        return ApiResponse.ok(null);
+    @PostMapping("/delete")
+    public void deleteComment(HttpServletRequest httpServletRequest,@RequestBody long commentId) {
+        long userId = (long) httpServletRequest.getAttribute("userId");
+        commentService.deleteComment(commentId);
+        return;
     }
+
+    /**
+     * 获取该内容下的一级评论
+     * @parm contentId
+     * @parm page
+     * @parm size
+     */
+    @GetMapping("/getLevelOne")
+    public ApiResponse<List<CommentResponse>> getLevelOneComment(@RequestParam long contentId, @RequestParam int page, @RequestParam int size) {
+        return commentService.getLevelOneComment(contentId,page,size);
+    }
+
+    /**
+     * 获取该评论下的二级评论
+     * @parm rootId
+     * @parm page
+     * @parm size
+     */
+    @GetMapping("/getLevelTwo")
+    public ApiResponse<List<CommentResponse>> getLevelTwoComment(@RequestParam long rootId, @RequestParam int page, @RequestParam int size) {
+        return commentService.getLevelTwoComment(rootId,page,size);
+    }
+
+    /**
+     * 查看用户自己之前发布过的历史评论
+     * @parm userId
+     * @parm page
+     * @parm size
+     */
+    @GetMapping("/getHistory")
+    public ApiResponse<List<CommentResponse>> getHistoryComment(HttpServletRequest httpServletRequest,@RequestParam int page, @RequestParam int size) {
+        long userId = (long) httpServletRequest.getAttribute("userId");
+        return commentService.getHistoryComment(userId,page,size);
+    }
+
 
 }

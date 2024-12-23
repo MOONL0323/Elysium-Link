@@ -1,5 +1,6 @@
 package com.example.demo.userRelationships.controller;
 
+import com.example.demo.userRelationships.entity.FollowingInfoResponse;
 import com.example.demo.userRelationships.entity.User;
 import com.example.demo.userRelationships.service.FollowerService;
 import com.example.demo.util.ApiResponse;
@@ -29,7 +30,7 @@ public class FollowerController {
 
     // 获取粉丝列表
     @GetMapping("/list/follower")
-    public ApiResponse<List<User>> getFollower(HttpServletRequest request) {
+    public ApiResponse<FollowingInfoResponse> getFollower(HttpServletRequest request) {
         // 从request中获取userId，不再使用url中的userId
         Long userId = Long.valueOf((String) request.getAttribute("userId"));
         return followerService.getFollowerInfo(userId);

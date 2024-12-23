@@ -1,5 +1,5 @@
 server:
-  port: 8099
+  port: 8077
 
 spring:
   application:
@@ -9,6 +9,52 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/go-backend?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: root
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: root
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+      group-id: demo
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+minio:
+  endpoint: 106.52.176.243 #Minio服务所在地址
+  port: 9000 #Minio服务的端口
+  bucketName: go-backend #存储桶名称
+  accessKey: 1GUH2mLGajNZTosgCiRa #访问的key，也可以是上面创建的AccessKey
+  secretKey: foxeKloFgpuPdmuoIC5q18FqVEB3KkyPSMYPCqZs #访问的秘钥，也可以是上面创建的SecretKey
+  upload: test #文件上传路径
+
+# 配置美团的分布式ID生成器leaf
+# 字段模式，需要建表支持
+
+#leaf:
+#  name: leaf
+#  segment:
+#    url: jdbc:mysql://127.0.0.1:3306/leaf?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    password: root
+#    enable: true
+
+# 雪花模式，需要zookeeper支持
+leaf:
+  name: leaf
+  snowflake:
+    enable: true
+    address: 127.0.0.1:2181
+    port: 9600
+
 
 #mybatis:
 #  config-location: classpath:mybatis-config.xml
